@@ -22,51 +22,39 @@
 <body>
   <div id="app" class="container">
     
-        <hr>
-        <button v-on:click="connect()" type="button" class="btn btn-success">Connect to server!</button>
-
         <div class="row">
-
-            <div class="col-md-1 text-center">
+            <div class="col-md-2">
+                <button v-on:click="connect()" type="button" class="btn btn-success">Connect to server!</button>
                 <h3>Status:</h3>
-                <h4 style="color: green;" id="connectStatus"></h4>
+                <h4 style="color: green;" id="connectStatus"></h4>            
             </div>
-
-        
-            <div class="col-md-12 text-center">
-                <h2>command</h2>
-            </div>
-
-            <div class="col-md-12 text-center">
-                <button v-on:click="ledAan()" :disabled="!connected" class="btn btn-primary">Led aan</button>
-                <br><br>
-            </div>
-
-            <div class="col-md-12 text-center">
-                <button v-on:click="ledUit()" :disabled="!connected" class="btn btn-primary">Led uit</button>
-                <br><br>
-            </div>    
-            
-            <label for="x">X:</label>
-            <input v-model="x" type="text" id="x" name="x" placeholder="Enter X">
-      
-            <label for="y">Y:</label>
-            <input v-model="y" type="text" id="y" name="y" placeholder="Enter Y">
-      
-            <label for="z">Z:</label>
-            <input v-model="z" type="text" id="z" name="z" placeholder="Enter Z">
-            <button v-on:click="sendValue()" :disabled="!connected" class="btn btn-primary">Send Values</button>
-            <br><br>
-
         </div>
         <div class="row">
-            <div class="col-md-1 text-center">
+            <div class="col text-center">
+                <button v-on:click="ledAan()" :disabled="!connected" class="btn btn-primary">Led aan</button>
+                <br><br>
+                <button v-on:click="ledUit()" :disabled="!connected" class="btn btn-primary">Led uit</button>
+            </div>
+            <div class="col text-center">
+                <label for="x">X:</label>
+                <input v-model="x" type="text" id="x" name="x" placeholder="Enter X">
+                <br>
+                <label for="y">Y:</label>
+                <input v-model="y" type="text" id="y" name="y" placeholder="Enter Y">
+                <br>
+                <label for="z">Z:</label>
+                <input v-model="z" type="text" id="z" name="z" placeholder="Enter Z">
+                <br>
+                <button v-on:click="sendValue()" :disabled="!connected" class="btn btn-primary">Send Values</button>
+                <br><br>
+            </div>    
+        </div>
+        <div class="row">
+            <div class="col">
                 <h3>Publish log:</h3>
                 <p id="publishLog" class="scrolling-container"></p>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1 text-center">
+            <div class="col">
                 <h3>Publish log:</h3>
                 <p id="recieveLog" class="scrolling-container">
                 <span v-for="(message, index) in receivedMessages" :key="index">
@@ -76,6 +64,46 @@
             </div>
         </div>
     </div>
+
+    <!-- reference 
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    1
+                </div>
+                <div class="col">
+                    2
+                </div>
+                <div class="col">
+                    3
+                </div>
+                <div class="col">
+                    4
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    5
+                </div>
+                <div class="col">
+                    6
+                </div>
+                <div class="col">
+                    7
+                </div>
+                <div class="col">
+                    8
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
 
 
 
