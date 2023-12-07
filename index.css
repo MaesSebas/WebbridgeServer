@@ -1,0 +1,7 @@
+.scrolling-container {
+    max-height: 100px; 
+    width: 100px;
+    overflow-y: auto; 
+    border: 1px solid #ccc;
+    padding: 5px; 
+}
