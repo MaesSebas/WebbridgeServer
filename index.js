@@ -3,9 +3,9 @@ var app = new Vue({
     data: {
       connected: false,
       ros: null,
-      //ws_address: 'ws://localhost:9090',
+      ws_address: 'ws://localhost:9090',
       //ws_address: 'ws://192.168.1.113:9090',
-      ws_address: 'ws://192.168.1.48:9090',
+      //ws_address: 'ws://192.168.1.48:9090',
       topic: null,
       message: null
   
