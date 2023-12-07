@@ -3,11 +3,12 @@ var app = new Vue({
     data: {
       connected: false,
       ros: null,
-      ws_address: 'ws://localhost:9090',
+      //ws_address: 'ws://localhost:9090',
       //ws_address: 'ws://192.168.1.113:9090',
-      //ws_address: 'ws://192.168.1.48:9090',
+      ws_address: 'ws://192.168.1.48:9090',
       topic: null,
-      message: null
+      message: null,
+      receivedMessages: [] 
   
     },
 
@@ -50,13 +51,13 @@ var app = new Vue({
         setTopicListener: function () {
           const my_topic_listener = new ROSLIB.Topic({
             ros: this.ros,
-            name: "/my_topic",
+            name: "/Test",
             messageType: "std_msgs/String",
           });
     
           my_topic_listener.subscribe((message) => {
-            // Handle incoming messages and update UI
             this.receivedMessages.push(message.data);
+            console.log(this.receivedMessages)
           });
         },
   
