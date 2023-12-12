@@ -12,9 +12,11 @@ var app = new Vue({
     topicMessageTypes: {},
     data: null,
     mytopic: null,
+    camera_topic: null,
     x: 0,
     y: 0,
     z: 0,
+    batteryLevel,
   },
 
   created: function () {
@@ -82,7 +84,6 @@ var app = new Vue({
           // Handle other message types accordingly
           this.receivedMessages.push(message.data);
         }
-        //this.fetchTopics();
         console.log(this.receivedMessages);
       });      
     },
@@ -109,6 +110,18 @@ var app = new Vue({
         name: '/Pointie',
         messageType: 'geometry_msgs/Point'
       })
+    },
+
+    subToTopicCamera: function(){
+      camera_topic = new ROSLIB.Topic({
+        ros: this.ros,
+        name: "/image_raw/compressed",
+        messageType: "sensor_msgs/msg/CompressedImage",
+      });
+
+      camera_topic.subscribe((message) => {
+        document.getElementById("myimage").src = "data:image/jpg;base64," + message.data;
+      });
     },
 
     ledAan: function () {
@@ -155,6 +168,8 @@ var app = new Vue({
         // console.log('Connected!');
         document.getElementById("connectStatus").style.color = "green";
         document.getElementById("connectStatus").innerHTML = "Connected!";
+        this.subToTopicCamera();
+        
         this.connected = true;
       });
 
