@@ -5,3 +5,8 @@
     border: 1px solid #ccc;
     padding: 5px; 
 }
+
+.default-size {
+    width: 800px;
+    height: 300px;
+}

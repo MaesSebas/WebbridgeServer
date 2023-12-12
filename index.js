@@ -16,11 +16,13 @@ var app = new Vue({
     x: 0,
     y: 0,
     z: 0,
-    batteryLevel,
+    batteryLevel: -1,
+    batteryTopicName: "/Battery",
+    cameraTopicName: "/image_raw/compressed",
   },
 
   created: function () {
-    this.changeWsAddress();
+    this.changeWsAddress("ws://192.168.1.48:9090");
   },
 
   methods: {
@@ -36,7 +38,7 @@ var app = new Vue({
 
       service.callService(topicRequest, (result) => {
         this.availableTopics = result.topics;
-        // console.log(result.topics);
+        console.log(result.topics);
 
         this.availableTopics.forEach((topic) => {
           this.fetchMessageType(topic);
@@ -112,10 +114,23 @@ var app = new Vue({
       })
     },
 
+    subToTopicBattery: function(){
+      battery_topic = new ROSLIB.Topic({
+        ros: this.ros,
+        name: batteryTopicName,
+        messageType: "std_msgs/msg/Float64",
+      });
+
+      battery_topic.subscribe((message) => {
+        this.batteryLevel = message.data * 100;
+        document.getElementById("BatteryLevel").textContent = convertToPercentage;
+    });
+    },
+
     subToTopicCamera: function(){
       camera_topic = new ROSLIB.Topic({
         ros: this.ros,
-        name: "/image_raw/compressed",
+        name: cameraTopicName,
         messageType: "sensor_msgs/msg/CompressedImage",
       });
 
@@ -153,22 +168,25 @@ var app = new Vue({
       this.topic.publish(this.message);
     },
 
-    changeWsAddress: function () {
+    changeWsAddress: function (selectedAddress) {
       if (this.connected) {
         this.disconnect();
       }
 
       this.ros = new ROSLIB.Ros({
-        url: this.selectedAddress
+        url: selectedAddress
       });
 
       this.ros.on('connection', () => {
 
         this.fetchTopics();
         // console.log('Connected!');
+        this.selectedAddress = selectedAddress;
+
         document.getElementById("connectStatus").style.color = "green";
         document.getElementById("connectStatus").innerHTML = "Connected!";
         this.subToTopicCamera();
+        this.subToTopicBattery();
         
         this.connected = true;
       });
