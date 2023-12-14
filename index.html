@@ -99,6 +99,30 @@
                 <div v-else>
                     <p>No data published</p>
                 </div>
+            </div>    
+            <div class="col border">
+                <h3>Manual Control</h3>
+                <div v-if="!connected">
+                    <p>Connect to the server first to control the</p>
+                </div>
+                <div v-else></div>
+                    <div class="control-container">
+                        <button class="control-button up">Up</button>
+                        <button class="control-button left">Left</button>
+                        <button class="control-button right">Right</button>
+                        <button class="control-button down">Down</button>
+                    </div>
+                </div>
+                <!--
+                
+                <div v-else-if="availableTopics.includes(batteryTopicName)">
+                    <p><span id="BatteryLevel">{{ batteryLevel }}%</span></p>
+                </div>
+                <div v-else>
+                    <p>No data published</p>
+                </div>
+                -->
+
             </div>          
         </div>
     </div>
