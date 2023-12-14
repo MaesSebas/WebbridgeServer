@@ -117,7 +117,7 @@ var app = new Vue({
     subToTopicBattery: function(){
       battery_topic = new ROSLIB.Topic({
         ros: this.ros,
-        name: batteryTopicName,
+        name: this.batteryTopicName,
         messageType: "std_msgs/msg/Float64",
       });
 
@@ -130,7 +130,7 @@ var app = new Vue({
     subToTopicCamera: function(){
       camera_topic = new ROSLIB.Topic({
         ros: this.ros,
-        name: cameraTopicName,
+        name: this.cameraTopicName,
         messageType: "sensor_msgs/msg/CompressedImage",
       });
 
