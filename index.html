@@ -107,10 +107,10 @@
                 </div>
                 <div v-else></div>
                     <div class="control-container">
-                        <button class="control-button up">Up</button>
-                        <button class="control-button left">Left</button>
-                        <button class="control-button right">Right</button>
-                        <button class="control-button down">Down</button>
+                        <button class="control-button up" @mousedown="buttonClicked('up')" @mouseup="buttonReleased('up')">Up</button>
+                        <button class="control-button left" @mousedown="buttonClicked('left')" @mouseup="buttonReleased('left')">Left</button>
+                        <button class="control-button right" @mousedown="buttonClicked('right')" @mouseup="buttonReleased('right')">Right</button>
+                        <button class="control-button down" @mousedown="buttonClicked('down')" @mouseup="buttonReleased('down')">Down</button>
                     </div>
                 </div>
                 <!--

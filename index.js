@@ -19,6 +19,7 @@ var app = new Vue({
     batteryLevel: -1,
     batteryTopicName: "/Battery",
     cameraTopicName: "/image_raw/compressed",
+    intervals: {},
   },
 
   created: function () {
@@ -44,6 +45,32 @@ var app = new Vue({
           this.fetchMessageType(topic);
         });
       });
+    },
+    buttonClicked: function(direction) {
+      this.intervals[direction] = setInterval(() => {
+        switch (direction) {
+          case "up":
+            console.log("Up");
+            break;
+          case "down":
+            console.log("Down");
+            break;
+          case "right":
+            console.log("Right");
+            break;
+          case "left":
+            console.log("Left");
+            break;
+          default:
+            console.log("Unknown direction");
+        }
+        //console.log(`Sending something: ${direction}`);
+      }, 10);
+      console.log(`set variable: ${direction}`);
+    },
+    buttonReleased: function(direction) {
+      //console.log(`stop variable: ${direction}`);
+      clearInterval(this.intervals[direction]);
     },
     //functie om voor elke topic te achterhalen wat de message type is
     fetchMessageType: function (topic) {
