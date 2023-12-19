@@ -53,7 +53,7 @@ var app = new Vue({
           case "up":
             const cmdVelUp = new ROSLIB.Topic({
               ros: this.ros,
-              name: 'cmd_vel',
+              name: '/cmd_vel',
               messageType: 'geometry_msgs/Twist'
             });
 
@@ -68,7 +68,7 @@ var app = new Vue({
           case "down":
             const cmdVelDown = new ROSLIB.Topic({
               ros: this.ros,
-              name: 'cmd_vel',
+              name: '/cmd_vel',
               messageType: 'geometry_msgs/Twist'
             });
 
@@ -83,7 +83,7 @@ var app = new Vue({
           case "right":
             const cmdVelRight = new ROSLIB.Topic({
               ros: this.ros,
-              name: 'cmd_vel',
+              name: '/cmd_vel',
               messageType: 'geometry_msgs/Twist'
             });
 
@@ -98,7 +98,7 @@ var app = new Vue({
           case "left":
             const cmdVelLeft = new ROSLIB.Topic({
               ros: this.ros,
-              name: 'cmd_vel',
+              name: '/cmd_vel',
               messageType: 'geometry_msgs/Twist'
             });
 
