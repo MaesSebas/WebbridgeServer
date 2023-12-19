@@ -23,7 +23,7 @@ var app = new Vue({
   },
 
   created: function () {
-    this.changeWsAddress("ws://192.168.1.48:9090");
+    this.changeWsAddress();
   },
 
   methods: {
@@ -46,29 +46,78 @@ var app = new Vue({
         });
       });
     },
-    buttonClicked: function(direction) {
+
+    buttonClicked: function (direction) {
       this.intervals[direction] = setInterval(() => {
         switch (direction) {
           case "up":
-            console.log("Up");
+            const cmdVelUp = new ROSLIB.Topic({
+              ros: this.ros,
+              name: 'cmd_vel',
+              messageType: 'geometry_msgs/Twist'
+            });
+
+            const twistUp = new ROSLIB.Message({
+              linear: { x: 0.2, y: 0.0, z: 0.0 },
+              angular: { x: 0.0, y: 0.0, z: 0.0 }
+            });
+
+            cmdVelUp.publish(twistUp);
+            console.log('Twist published!');
             break;
           case "down":
-            console.log("Down");
+            const cmdVelDown = new ROSLIB.Topic({
+              ros: this.ros,
+              name: 'cmd_vel',
+              messageType: 'geometry_msgs/Twist'
+            });
+
+            const twistDown = new ROSLIB.Message({
+              linear: { x: -0.2, y: 0.0, z: 0.0 },
+              angular: { x: 0.0, y: 0.0, z: 0.0 }
+            });
+
+            cmdVelDown.publish(twistDown);
+            console.log('Twist published!');
             break;
           case "right":
-            console.log("Right");
+            const cmdVelRight = new ROSLIB.Topic({
+              ros: this.ros,
+              name: 'cmd_vel',
+              messageType: 'geometry_msgs/Twist'
+            });
+
+            const twistRight = new ROSLIB.Message({
+              linear: { x: 0.0, y: 0.0, z: 0.0 },
+              angular: { x: 0.0, y: 0.0, z: -0.2 }
+            });
+
+            cmdVelRight.publish(twistRight);
+            console.log('Twist published!');
             break;
           case "left":
-            console.log("Left");
+            const cmdVelLeft = new ROSLIB.Topic({
+              ros: this.ros,
+              name: 'cmd_vel',
+              messageType: 'geometry_msgs/Twist'
+            });
+
+            const twistLeft = new ROSLIB.Message({
+              linear: { x: 0.0, y: 0.0, z: 0.0 },
+              angular: { x: 0.0, y: 0.0, z: 0.2 }
+            });
+
+            cmdVelLeft.publish(twistLeft);
+            console.log('Twist published!');
             break;
           default:
             console.log("Unknown direction");
         }
         //console.log(`Sending something: ${direction}`);
-      }, 10);
+      }, 500);
       console.log(`set variable: ${direction}`);
     },
-    buttonReleased: function(direction) {
+    buttonReleased: function (direction) {
       //console.log(`stop variable: ${direction}`);
       clearInterval(this.intervals[direction]);
     },
@@ -77,13 +126,13 @@ var app = new Vue({
       const messageTypeRequest = new ROSLIB.ServiceRequest({
         topic: topic,
       });
-  
+
       const service = new ROSLIB.Service({
         ros: this.ros,
         name: '/rosapi/topic_type',
         serviceType: 'rosapi/TopicType',
       });
-  
+
       service.callService(messageTypeRequest, (result) => {
         // Store the message type for the topic
         this.$set(this.topicMessageTypes, topic, result.type);
@@ -101,7 +150,7 @@ var app = new Vue({
       this.mytopic = new ROSLIB.Topic({
         ros: this.ros,
         name: this.selectedTopic,
-        messageType: this.topicMessageTypes[this.selectedTopic], 
+        messageType: this.topicMessageTypes[this.selectedTopic],
       });
 
       this.mytopic.subscribe((message) => {
@@ -114,14 +163,14 @@ var app = new Vue({
           this.receivedMessages.push(message.data);
         }
         console.log(this.receivedMessages);
-      });      
+      });
     },
 
     disconnect: function () {
       this.ros.close();
     },
 
-    clearReceivedMessages: function() {
+    clearReceivedMessages: function () {
       this.receivedMessages = [];
     },
 
@@ -141,7 +190,7 @@ var app = new Vue({
       })
     },
 
-    subToTopicBattery: function(){
+    subToTopicBattery: function () {
       battery_topic = new ROSLIB.Topic({
         ros: this.ros,
         name: this.batteryTopicName,
@@ -151,10 +200,10 @@ var app = new Vue({
       battery_topic.subscribe((message) => {
         this.batteryLevel = message.data * 100;
         document.getElementById("BatteryLevel").textContent = convertToPercentage;
-    });
+      });
     },
 
-    subToTopicCamera: function(){
+    subToTopicCamera: function () {
       camera_topic = new ROSLIB.Topic({
         ros: this.ros,
         name: this.cameraTopicName,
@@ -195,26 +244,26 @@ var app = new Vue({
       this.topic.publish(this.message);
     },
 
-    changeWsAddress: function (selectedAddress) {
+    changeWsAddress: function () {
       if (this.connected) {
         this.disconnect();
       }
 
       this.ros = new ROSLIB.Ros({
-        url: selectedAddress
+        url: this.selectedAddress
       });
 
       this.ros.on('connection', () => {
 
         this.fetchTopics();
         // console.log('Connected!');
-        this.selectedAddress = selectedAddress;
+        //this.selectedAddress = selectedAddress;
 
         document.getElementById("connectStatus").style.color = "green";
         document.getElementById("connectStatus").innerHTML = "Connected!";
         this.subToTopicCamera();
         this.subToTopicBattery();
-        
+
         this.connected = true;
       });
 
@@ -229,8 +278,7 @@ var app = new Vue({
         this.connected = false;
       })
 
-      if(this.selectedAddress == null)
-      {
+      if (this.selectedAddress == null) {
         document.getElementById("connectStatus").style.color = "red";
         document.getElementById("connectStatus").innerHTML = "Choose a WS address"
         // console.log('ERROR: there is no WS address selected');

@@ -27,7 +27,7 @@
         <div class="row border">
             <div class="col-md-2 border">
                 <label for="wsAddress">Select WS Address:</label>
-                <select v-model="selectedAddress" class="form-control" @change="changeWsAddress(selectedAddress)">
+                <select v-model="selectedAddress" class="form-control" @change="changeWsAddress()">
                     <option value="ws://localhost:9090">Localhost</option>
                     <option value="ws://192.168.1.48:9090">Rosbridge</option>
                 </select>
